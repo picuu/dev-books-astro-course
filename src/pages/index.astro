@@ -1,11 +1,123 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from '@/layouts/Layout.astro'
+import background from '@/assets/background.svg'
+import { getCollection } from 'astro:content'
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const books = await getCollection('books')
+
+console.log(books)
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Dev Books, libros para programadores | Astro 5 course by @midudev">
+  <img id="background" src={background.src} alt="" fetchpriority="high" />
+  <main>
+    <h1>Dev 👨🏻‍💻<span>Books</span></h1>
+  </main>
+
+  <section aria-label="Libros recomendados para programadores">
+    {
+      books.map((book) => {
+        const { slug, data } = book
+        const { title, author, img, readtime, description, buy } = data
+
+        return (
+          <article>
+            <a href={`/libro/${slug}`}>
+              <img src={`/${img}`} alt={title} />
+            </a>
+
+            <div class="content">
+              <h2 class="title">{title}</h2>
+              <p class="description">{description}</p>
+              <span class="readtime">⏳ Lectura en {readtime} minutos</span>
+            </div>
+          </article>
+        )
+      })
+    }
+  </section>
 </Layout>
+
+<style>
+  #background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    filter: blur(100px);
+  }
+
+  main {
+    margin-bottom: 6rem;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 900;
+
+    & span {
+      display: block;
+    }
+  }
+
+  section {
+    display: grid;
+    /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+    gap: 1.5rem;
+    max-width: 100vw;
+    padding-inline: 1rem;
+    margin-inline: auto;
+  }
+
+  @media (width > 768px) {
+    section {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  article {
+    display: flex;
+    gap: 1.5rem;
+
+    & a {
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    & img {
+      width: 12rem;
+      height: auto;
+      border-radius: 6px;
+    }
+
+    & .content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.5rem;
+
+      & .title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1.25;
+        color: #fff;
+      }
+
+      & .description {
+        margin-bottom: 0.5rem;
+        color: #ddd;
+        max-width: 24rem;
+      }
+
+      & .readtime {
+        font-size: 0.875rem;
+      }
+    }
+  }
+</style>
