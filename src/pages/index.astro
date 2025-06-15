@@ -1,6 +1,5 @@
 ---
 import Layout from '@/layouts/Layout.astro'
-import background from '@/assets/background.svg'
 import { getCollection } from 'astro:content'
 
 const books = await getCollection('books')
@@ -9,7 +8,6 @@ console.log(books)
 ---
 
 <Layout title="Dev Books, libros para programadores | Astro 5 course by @midudev">
-  <img id="background" src={background.src} alt="" fetchpriority="high" />
   <main>
     <h1>Dev 👨🏻‍💻<span>Books</span></h1>
   </main>
@@ -39,16 +37,6 @@ console.log(books)
 </Layout>
 
 <style>
-  #background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    filter: blur(100px);
-  }
-
   main {
     margin-bottom: 6rem;
   }
