@@ -21,7 +21,6 @@ const url = buy[storeCountry]
   Comprar en Amazon {countryName}
   <AmazonLogo />
 </a>
-<!-- class="text-balance active:bg-yellow-600" -->
 
 <style>
   a {
@@ -46,6 +45,10 @@ const url = buy[storeCountry]
     &:hover {
       background-color: #f59e0b;
       transform: scale(1.05);
+    }
+
+    &:active {
+      background-color: #b7791f;
     }
 
     & svg {

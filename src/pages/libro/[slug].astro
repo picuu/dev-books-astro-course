@@ -33,7 +33,13 @@ export const prerender = true
         <span class="fallback-text" slot="fallback">Cargando puntuación...</span>
       </BookScore>
 
-      {SHOW_BUY_BUTTON && <BuyButton server:defer buy={buy} />}
+      {
+        SHOW_BUY_BUTTON && (
+          <BuyButton server:defer buy={buy}>
+            <BuyButton buy={buy} />
+          </BuyButton>
+        )
+      }
     </aside>
 
     <main>
