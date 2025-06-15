@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content'
 
 const books = await getCollection('books')
 
-console.log(books)
+export const prerender = true
 ---
 
 <Layout title="Dev Books, libros para programadores | Astro 5 course by @midudev">
