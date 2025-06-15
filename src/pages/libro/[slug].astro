@@ -1,6 +1,9 @@
 ---
 import { getCollection, render } from 'astro:content'
+import { SHOW_BUY_BUTTON } from 'astro:env/server'
 import Layout from '@/layouts/Layout.astro'
+import BuyButton from '@/components/BuyButton.astro'
+import BookScore from '@/components/BookScore.astro'
 
 export async function getStaticPaths() {
   const books = await getCollection('books')
@@ -16,6 +19,8 @@ const { data, slug } = book
 const { title, author, img, readtime, description, buy } = data
 
 const { Content } = await render(book)
+
+export const prerender = true
 ---
 
 <Layout title={`${title} - Dev Books`}>
@@ -23,7 +28,12 @@ const { Content } = await render(book)
     <aside>
       <a class="go-back" href="/">← Volver atrás</a>
       <img src={`/${img}`} alt={title} transition:name={`img-${slug}`} />
-      <!-- enlace para comprar -->
+
+      <BookScore server:defer id={slug}>
+        <span class="fallback-text" slot="fallback">Cargando puntuación...</span>
+      </BookScore>
+
+      {SHOW_BUY_BUTTON && <BuyButton server:defer buy={buy} />}
     </aside>
 
     <main>
@@ -46,6 +56,24 @@ const { Content } = await render(book)
     flex-direction: column;
     gap: 0.75rem;
 
+    & .go-back {
+      color: #fff;
+      text-decoration: underline;
+      text-decoration-color: transparent;
+      opacity: 0.7;
+      transition: text-decoration-color 0.2s ease-in-out;
+      width: fit-content;
+
+      &:hover {
+        text-decoration-color: currentColor;
+      }
+
+      & .arrow {
+        display: inline-block;
+        transform: rotate(180deg);
+      }
+    }
+
     & img {
       width: 18rem;
       height: auto;
@@ -53,22 +81,11 @@ const { Content } = await render(book)
     }
   }
 
-  .go-back {
-    color: #fff;
-    text-decoration: underline;
-    text-decoration-color: transparent;
+  .fallback-text {
+    font-size: 0.75rem;
+    margin-block: 0.5rem;
+    text-align: center;
     opacity: 0.7;
-    transition: text-decoration-color 0.2s ease-in-out;
-    width: fit-content;
-
-    &:hover {
-      text-decoration-color: currentColor;
-    }
-
-    & .arrow {
-      display: inline-block;
-      transform: rotate(180deg);
-    }
   }
 
   main {
