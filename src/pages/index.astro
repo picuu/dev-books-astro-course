@@ -21,7 +21,7 @@ console.log(books)
         return (
           <article>
             <a href={`/libro/${slug}`}>
-              <img src={`/${img}`} alt={title} />
+              <img src={`/${img}`} alt={title} transition:name={`img-${slug}`} />
             </a>
 
             <div class="content">
