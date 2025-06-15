@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content'
 import { SHOW_BUY_BUTTON } from 'astro:env/server'
 import Layout from '@/layouts/Layout.astro'
 import BuyButton from '@/components/BuyButton.astro'
+import BuyButtonFallback from '@/components/BuyButtonFallback.astro'
 import BookScore from '@/components/BookScore.astro'
 
 export async function getStaticPaths() {
@@ -36,7 +37,7 @@ export const prerender = true
       {
         SHOW_BUY_BUTTON && (
           <BuyButton server:defer buy={buy}>
-            <BuyButton buy={buy} />
+            <BuyButtonFallback buy={buy} />
           </BuyButton>
         )
       }

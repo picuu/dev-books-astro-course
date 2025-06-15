@@ -1,0 +1,48 @@
+---
+import AmazonLogo from './AmazonLogo.svg'
+
+const { buy } = Astro.props
+const url = buy.spain
+---
+
+<a href={url} title="Comprar libro" target="_blank" rel="noopener noreferrer">
+  Comprar en Amazon
+  <AmazonLogo />
+</a>
+
+<style>
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #fbbf24;
+    border: 1px solid #f59e0b;
+    border-radius: 0.5rem;
+    color: #000;
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    text-wrap: balance;
+    transition:
+      background-color 200ms ease-in-out,
+      transform 200ms ease-in-out;
+
+    &:hover {
+      background-color: #f59e0b;
+      transform: scale(1.05);
+    }
+
+    &:active {
+      background-color: #b7791f;
+    }
+
+    & svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-top: 0.25rem;
+    }
+  }
+</style>
